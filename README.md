@@ -3,7 +3,7 @@ Tools for NFA (nondeterministic finite automaton) and DFA (deterministic finite 
 This program helps you to run the following functions in a user-friendly interface  
 Functions:  
 1. Convert NFA to DFA
-2. minimize DFA
+2. Minimize DFA
 
 ### Releases
 Get the latest version from [releases](https://github.com/mahdiyari/nfa-dfa-tools/releases)
