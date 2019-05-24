@@ -1,0 +1,52 @@
+<!--
+  NFA & DFA tools
+  * This file may work only with electronjs because of nodeIntegration
+-->
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <title>NFA & DFA tools</title>
+    <!-- Bootstrap v3.4.1 for app style -->
+    <link rel="stylesheet" href="../assets/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="../assets/css/style.css" />
+    <!-- A bug fix related to bootstrap -->
+    <script>
+      if (typeof module === 'object') {
+        window.module = module; module = undefined;
+      }
+    </script>
+    <script src="../assets/js/jquery-3.4.1.min.js"></script>
+    <script src="../assets/js/bootstrap.min.js"></script>
+    <script src="../assets/js/csi.min.js"></script>
+  </head>
+  <body>
+    <div class="" style="padding:0;">
+      <!-- Tabs -->
+      <ul class="nav nav-tabs">
+        <li class="active"><a data-toggle="tab" href="#first">
+          <i class="glyphicon glyphicon-refresh"></i> Convert NFA to DFA</a>
+        </li>
+        <li><a data-toggle="tab" href="#second">
+          <i class="glyphicon glyphicon-resize-small"></i> Minimize DFA</a>
+        </li>
+      </ul>
+
+      <div class="tab-content">
+        <!-- First tab: Convert NFA to DFA -->
+        <div id="first" class="tab-pane fade in active">
+          <div data-include="convert-nfa-to-dfa.html"></div>
+        </div>
+
+        <!-- Second tab: Minimize DFA -->
+        <div id="second" class="tab-pane fade">
+          <div data-include="minimize-dfa.html"></div>
+        </div>
+      </div>
+      
+    </div>
+
+    <!-- Load application -->
+    <script src="../src/app.js"></script>
+  </body>
+</html>

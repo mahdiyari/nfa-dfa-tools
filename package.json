@@ -1,0 +1,26 @@
+{
+  "name": "nfa-dfa-tools",
+  "version": "1.0.0",
+  "description": "Convert NFA to DFA and minimize DFA",
+  "main": "main.js",
+  "scripts": {
+    "start": "electron .",
+    "pack": "build --dir"
+  },
+  "build": {
+    "appId": "com.nfa.dfa.tools.app",
+    "productName": "NFA and DFA tools"
+  },
+  "author": "Mahdi Yari",
+  "license": "GPL-3.0-or-later",
+  "repository": {
+    "type" : "git",
+    "url" : "https://github.com/mahdiyari/nfa-dfa-tools"
+  },
+  "dependencies": {
+    "about-window": "^1.13.0"
+  },
+  "devDependencies": {
+    "electron": "^4.2.2"
+  }
+}

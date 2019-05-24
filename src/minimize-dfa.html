@@ -1,0 +1,111 @@
+<!-- Minimize DFA -->
+<div class="col col-sm-6">
+  <h3>Minimizing DFA</h3>
+  <p>Enter the DFA states splitted by comma as shown in the example</p>
+  <!-- Form for user DFA input -->
+  <table class="table table-striped" style="margin-bottom: 0;">
+    <tr>
+      <td>Starting state:</td>
+      <td>
+        <input class="form-control input-sm" type="text" id="start-dfa-state" value="A" />
+      </td>
+    </tr>
+    <tr>
+      <td>Final states:</td>
+      <td>
+        <input class="form-control input-sm" type="text" id="final-dfa-states" value="C, D" />
+      </td>
+    </tr>
+    <tr>
+      <td>Alphabet:</td>
+      <td>
+        <input class="form-control input-sm" type="text" id="alphabet-dfa" value="a, b" />
+      </td>
+    </tr>
+    <tr>
+      <td>Moves:</td>
+      <td>
+        <textarea
+          class="form-control"
+          id="moves-dfa" cols="35"
+          rows="5"
+        >A: { a: [D] }, B: { a: [D], b: [C] }</textarea>
+        <!-- Add more example moves -->
+        <button class="btn btn-default" style="width: 100%;" onclick="addMove('dfa')">
+          <i class="glyphicon glyphicon-plus"></i> Add move
+        </button>
+      </td>
+    </tr>
+  </table>
+  <!-- Draw input DFA without minimizing -->
+  <button class="btn btn-primary" style="width: 34%;" onclick="drawNFA('dfa')">
+      <i class="glyphicon glyphicon-edit"></i> Draw DFA
+  </button>
+  <!-- Minimize and draw both input DFA and minimized DFA -->
+  <button class="btn btn-primary cnv" style="width: 64%;" onclick="minimize()">
+      <i class="glyphicon glyphicon-resize-small"></i> Minimize and draw
+  </button>
+</div>
+
+<!-- Examples and documentation -->
+<div class="container">
+  <div class="col col-sm-6">
+    <h4>Examples:</h4>
+    Starting state:
+    <code>A</code> <br>
+    Final states:
+    <code>D, C, E</code> <br>
+    Alphabet:
+    <code>0, 1</code> <br>
+    Moves:
+    <code>
+        A: {0: [B], 1:[C]}, <br>
+        B: {0: [A], 1:[D]}, <br>
+        C: {0: [E], 1:[F]}, <br>
+        D: {0: [E], 1:[F]}, <br>
+        E: {0: [E], 1:[F]}, <br>
+        F: {0: [F], 1:[F]}
+    </code> <br>
+    A: previous state <br>
+    0, 1: input <br>
+    B, C: next states <br>
+    (Note: there should not be any lambda input)
+  </div>
+</div>
+
+<!-- Output -->
+<div class="container" id="output-min-dfa" style="display: none;">
+  <h3>Output:</h3>
+  <table class="table table-striped">
+    <tr>
+      <td>First state:</td>
+      <td id="first-min-dfa"></td>
+    </tr>
+    <tr>
+      <td>Final states:</td>
+      <td id="finals-min-dfa"></td>
+    </tr>
+    <tr>
+      <td>Moves:</td>
+      <td id="moves-min-dfa"></td>
+    </tr>
+  </table>
+</div>
+<div class="col col-sm-6" id="dfa-canvas-div" style="display: none;">
+  <h3>DFA:</h3>
+  <canvas
+  id="canvas-dfa"
+  style="border: 1px solid #ddd;"
+  width="400"
+  height="400"
+  ></canvas>
+</div>
+<div class="col col-sm-6" id="dfa-min-canvas-div" style="display: none;">
+  <h3>Minimized DFA:</h3>
+  <canvas
+  id="canvas-min-dfa"
+  style="border: 1px solid #ddd;"
+  width="400"
+  height="400"
+  ></canvas>
+</div>

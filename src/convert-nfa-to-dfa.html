@@ -1,0 +1,109 @@
+<!-- Converting NFA to DFA -->
+<div class="col col-sm-6">
+  <h3>Converting NFA to DFA</h3>
+  <p>Enter the NFA states splitted by comma as shown in the example</p>
+  <!-- Form for user NFA input -->
+  <table class="table table-striped" style="margin-bottom: 0;">
+    <tr>
+      <td>Starting state:</td>
+      <td>
+        <input class="form-control input-sm" type="text" id="start-nfa-state" value="A" />
+      </td>
+    </tr>
+    <tr>
+      <td>Final states:</td>
+      <td>
+        <input class="form-control input-sm" type="text" id="final-nfa-states" value="C, D" />
+      </td>
+    </tr>
+    <tr>
+      <td>Alphabet:</td>
+      <td>
+        <input class="form-control input-sm" type="text" id="alphabet-nfa" value="a, b" />
+      </td>
+    </tr>
+    <tr>
+      <td>Moves:</td>
+      <td>
+        <textarea
+          class="form-control"
+          id="moves-nfa" cols="35"
+          rows="5"
+        >A: { a: [D, C] }, B: { a: [D], b: [C, D] }</textarea>
+        <!-- Add more example moves -->
+        <button class="btn btn-default" style="width: 100%;" onclick="addMove('nfa')">
+          <i class="glyphicon glyphicon-plus"></i> Add move
+        </button>
+      </td>
+    </tr>
+  </table>
+  <!-- Draw input NFA without converting -->
+  <button class="btn btn-primary" style="width: 34%;" onclick="drawNFA('nfa')">
+      <i class="glyphicon glyphicon-edit"></i> Draw NFA
+  </button>
+  <!-- Convert and draw both NFA and DFA -->
+  <button class="btn btn-primary cnv" style="width: 64%;" onclick="convert()">
+      <i class="glyphicon glyphicon-refresh"></i> Convert and draw
+  </button>
+</div>
+
+<!-- Examples and documentation -->
+<div class="container">
+  <div class="col col-sm-6">
+    <h4>Examples:</h4>
+    Starting state:
+    <code>A</code> <br>
+    Final states:
+    <code>D, C</code> <br>
+    Alphabet:
+    <code>a, b</code> <br>
+    Moves:
+    <code>
+      A: { a: [D, C], "": [B] }, <br>
+      B: { a: [D], b: [C, D]  }
+    </code> <br>
+    A, B: previous state <br>
+    a, b: input <br>
+    D, C: next states <br>
+    "": Empry input (Lambda transition)
+  </div>
+</div>
+
+<!-- Output -->
+<div class="container" id="output-conv-dfa" style="display: none;">
+  <h3>Output:</h3>
+  <table class="table table-striped">
+    <tr>
+      <td>First state:</td>
+      <td id="first-conv-dfa"></td>
+    </tr>
+    <tr>
+      <td>Final states:</td>
+      <td id="finals-conv-dfa"></td>
+    </tr>
+    <tr>
+      <td>Moves:</td>
+      <td id="moves-conv-dfa"></td>
+    </tr>
+  </table>
+</div>
+
+<!-- Output drawings -->
+<div class="col col-sm-6" id="nfa-canvas-div" style="display: none;">
+  <h3>NFA:</h3>
+  <canvas
+  id="canvas-nfa"
+  style="border: 1px solid #ddd;"
+  width="400"
+  height="400"
+  ></canvas>
+</div>
+<div class="col col-sm-6" id="dfa-conv-canvas-div" style="display: none;">
+  <h3>DFA:</h3>
+  <canvas
+  id="canvas-conv-dfa"
+  style="border: 1px solid #ddd;"
+  width="400"
+  height="400"
+  ></canvas>
+</div>
