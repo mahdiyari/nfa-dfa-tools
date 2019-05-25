@@ -1,0 +1,7 @@
+code {
+  display: block;  
+}
+textarea {
+  resize: none;
+  white-space: nowrap;
+}
