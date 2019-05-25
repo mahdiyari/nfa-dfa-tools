@@ -23,7 +23,15 @@
       </td>
     </tr>
     <tr>
-      <td>Moves:</td>
+      <td>
+        Moves: <br><br>
+        <button class="btn btn-success" onclick="save('nfa')" style="margin-bottom: 3px;">
+          <i class="glyphicon glyphicon-save"></i> Save
+        </button> <br>
+        <button class="btn btn-default" onclick="load('nfa')">
+          <i class="glyphicon glyphicon-open"></i> Load
+        </button>
+      </td>
       <td>
         <textarea
           class="form-control"
@@ -69,6 +77,7 @@
   </div>
 </div>
 
+<hr>
 <!-- Output -->
 <div class="container" id="output-conv-dfa" style="display: none;">
   <h3>Output:</h3>
@@ -86,8 +95,12 @@
       <td id="moves-conv-dfa"></td>
     </tr>
   </table>
+  <button class="btn btn-success" onclick="saveOut(1, 'dfa')" style="margin-bottom: 3px;">
+    <i class="glyphicon glyphicon-save"></i> Save
+  </button>
 </div>
 
+<hr>
 <!-- Output drawings -->
 <div class="col col-sm-6" id="nfa-canvas-div" style="display: none;">
   <h3>NFA:</h3>

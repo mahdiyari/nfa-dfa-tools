@@ -1,0 +1,111 @@
+<!-- Check DFA with given input string -->
+<div class="col col-sm-6">
+  <h3>Check DFA</h3>
+  <p>Enter the DFA states splitted by comma as shown in the example</p>
+  <!-- Form for user DFA input -->
+  <table class="table table-striped" style="margin-bottom: 0;">
+    <tr>
+      <td>Input string:</td>
+      <td>
+        <input class="form-control input-sm" type="text" id="input-dfa-check-string" value="aabbaa" />
+      </td>
+    </tr>
+    <tr>
+      <td>Starting state:</td>
+      <td>
+        <input class="form-control input-sm" type="text" id="start-dfa-check-state" value="A" />
+      </td>
+    </tr>
+    <tr>
+      <td>Final states:</td>
+      <td>
+        <input class="form-control input-sm" type="text" id="final-dfa-check-states" value="C, D" />
+      </td>
+    </tr>
+    <tr>
+      <td>Alphabet:</td>
+      <td>
+        <input class="form-control input-sm" type="text" id="alphabet-dfa-check" value="a, b" />
+      </td>
+    </tr>
+    <tr>
+      <td>
+        Moves: <br><br>
+        <button class="btn btn-success" onclick="save('dfa-check')" style="margin-bottom: 3px;">
+          <i class="glyphicon glyphicon-save"></i> Save
+        </button> <br>
+        <button class="btn btn-default" onclick="load('dfa-check')">
+          <i class="glyphicon glyphicon-open"></i> Load
+        </button>
+      </td>
+      <td>
+        <textarea
+          class="form-control"
+          id="moves-dfa-check" cols="35"
+          rows="5"
+        >A: { a: [D] }, B: { a: [D], b: [C] }</textarea>
+        <!-- Add more example moves -->
+        <button class="btn btn-default" style="width: 100%;" onclick="addMove('dfa-check')">
+          <i class="glyphicon glyphicon-plus"></i> Add move
+        </button>
+      </td>
+    </tr>
+  </table>
+  <!-- Draw input DFA -->
+  <button class="btn btn-primary" style="width: 34%;" onclick="drawNFA('dfa-check')">
+      <i class="glyphicon glyphicon-edit"></i> Draw DFA
+  </button>
+  <!-- Check DFA and draw -->
+  <button class="btn btn-primary cnv" style="width: 64%;" onclick="checkDFA()">
+      <i class="glyphicon glyphicon-resize-small"></i> Check input and draw
+  </button>
+</div>
+
+<!-- Examples and documentation -->
+<div class="container">
+  <div class="col col-sm-6">
+    <h4>Examples:</h4>
+    Input string:
+    <code>00100</code> <br>
+    Starting state:
+    <code>A</code> <br>
+    Final states:
+    <code>D, C, E</code> <br>
+    Alphabet:
+    <code>0, 1</code> <br>
+    Moves:
+    <code>
+        A: {0: [B], 1:[C]}, <br>
+        B: {0: [A], 1:[D]}, <br>
+        C: {0: [E], 1:[F]}, <br>
+        D: {0: [E], 1:[F]}, <br>
+        E: {0: [E], 1:[F]}, <br>
+        F: {0: [F], 1:[F]}
+    </code> <br>
+    A: previous state <br>
+    0, 1: input <br>
+    B, C: next states <br>
+    (Note: there should not be any lambda input)
+  </div>
+</div>
+
+<!-- Output drawings -->
+<hr>
+<div class="col col-sm-6" id="dfa-check-canvas-div" style="display: none;">
+  <h3>DFA:</h3>
+  <canvas
+  id="canvas-dfa-check"
+  style="border: 1px solid #ddd;"
+  width="400"
+  height="400"
+  ></canvas>
+</div>
+
+<!-- Output result -->
+<div class="col col-sm-6" id="output-dfa-check-div" style="display: none;">
+  <h3>Result:</h3>
+  <p>
+    String <code id="out-dfa-check-string"></code> is <b id="out-dfa-check-result"></b> 
+    by given DFA.
+  </p>
+</div>

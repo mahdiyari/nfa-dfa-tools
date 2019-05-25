@@ -2,12 +2,15 @@ const { NFA } = require('./helpers/NFA')
 const { convertToDFA } = require('./convertToDFA')
 const { smoothScroll } = require('./helpers/smoothScroll')
 const { minimizeDFA } = require('./minimizeDFA')
+const { testDFA } = require('./helpers/testDFA')
+const { readFileSync, writeFileSync } = require('fs')
+const { dialog, getCurrentWindow } = require('electron').remote
 
 /** Get user inputs and convert NFA to DFA */
 const convert = () => {
   document.getElementById('nfa-canvas-div').style.display = 'block'
   document.getElementById('dfa-conv-canvas-div').style.display = 'block'
-  clearCanvas()
+  clearCanvas('nfa')
   const { start, finals, moves, alphabet } = getUserInput('nfa')
   const nfa = new NFA(start, finals, moves, alphabet)
   nfa.draw('canvas-nfa')
@@ -15,12 +18,13 @@ const convert = () => {
   dfa.draw('canvas-conv-dfa')
   printOutput(dfa, 'conv-dfa')
   smoothScroll('output-conv-dfa')
+  saveOut(0, 'dfa', dfa)
 }
 
 /** Draw input NFA/DFA without converting */
 const drawNFA = id => {
   document.getElementById(id + '-canvas-div').style.display = 'block'
-  clearCanvas()
+  clearCanvas('nfa')
   const { start, finals, moves, alphabet } = getUserInput(id)
   const nfa = new NFA(start, finals, moves, alphabet)
   nfa.draw('canvas-' + id)
@@ -31,7 +35,7 @@ const drawNFA = id => {
 const minimize = () => {
   document.getElementById('dfa-canvas-div').style.display = 'block'
   document.getElementById('dfa-min-canvas-div').style.display = 'block'
-  clearCanvas()
+  clearCanvas('dfa')
   const { start, finals, moves, alphabet } = getUserInput('dfa')
   const dfa = new NFA(start, finals, moves, alphabet)
   dfa.draw('canvas-dfa')
@@ -39,6 +43,74 @@ const minimize = () => {
   minDFA.draw('canvas-min-dfa')
   printOutput(minDFA, 'min-dfa')
   smoothScroll('output-min-dfa')
+  saveOut(0, 'dfa-min', dfa)
+}
+
+/** Test DFA with input string */
+const checkDFA = () => {
+  document.getElementById('dfa-check-canvas-div').style.display = 'block'
+  document.getElementById('output-dfa-check-div').style.display = 'block'
+  clearCanvas('dfa-check')
+  const { start, finals, moves, alphabet } = getUserInput('dfa-check')
+  const dfa = new NFA(start, finals, moves, alphabet)
+  const string = document.getElementById('input-dfa-check-string').value
+  dfa.draw('canvas-dfa-check')
+  smoothScroll('canvas-dfa-check')
+  const result = testDFA(dfa, string)
+  document.getElementById('out-dfa-check-string').innerHTML = string
+  document.getElementById('out-dfa-check-result').innerHTML = result ? 'ACCEPTED' : 'REJECTED'
+}
+
+/** Save input NFA/DFA as json file */
+const save = id => {
+  const start = document.getElementById('start-' + id + '-state').value
+  const finals = document.getElementById('final-' + id + '-states').value
+  const alphabet = document.getElementById('alphabet-' + id).value
+  const moves = document.getElementById('moves-' + id).value
+  const data = { start, finals, alphabet, moves }
+  const savePath = dialog.showSaveDialog(getCurrentWindow(), {
+    defaultPath: 'input-' + id + '.json',
+    filters: [{ name: 'JSON', extensions: ['json'] }]
+  })
+  if (!savePath) return
+  writeFileSync(savePath, JSON.stringify(data, undefined, 2))
+}
+
+/** Load input NFA/DFA from json file */
+const load = id => {
+  const loadPath = dialog.showOpenDialog(getCurrentWindow(), {
+    defaultPath: 'input-' + id + '.json',
+    filters: [{ name: 'JSON', extensions: ['json'] }]
+  })
+  if (!loadPath) return
+  const { start, finals, alphabet, moves } = JSON.parse(readFileSync(loadPath[0]))
+  document.getElementById('start-' + id + '-state').value = start
+  document.getElementById('final-' + id + '-states').value = finals
+  document.getElementById('alphabet-' + id).value = alphabet
+  document.getElementById('moves-' + id).value = moves
+}
+
+const helpSaveOut = {}
+/** Save output DFA as json file which can be loaded */
+const saveOut = (save, id, dfa) => {
+  if (!save) {
+    helpSaveOut[id] = { dfa }
+    return
+  }
+  dfa = helpSaveOut[id].dfa
+  const start = dfa.start
+  const finals = dfa.finals.join()
+  const alphabet = dfa.alphabet.join()
+  let moves = JSON.stringify(dfa.moves)
+  moves = moves.replace(/"/g, '')
+  moves = moves.slice(1, moves.length - 1)
+  const data = { start, finals, alphabet, moves }
+  const savePath = dialog.showSaveDialog(getCurrentWindow(), {
+    defaultPath: 'output-' + id + '.json',
+    filters: [{ name: 'JSON', extensions: ['json'] }]
+  })
+  if (!savePath) return
+  writeFileSync(savePath, JSON.stringify(data, undefined, 2))
 }
 
 /** print output of converted or minimized dfa */
@@ -50,20 +122,19 @@ const printOutput = (dfa, id) => {
 }
 
 /** Clear drawings */
-const clearCanvas = () => {
-  const ctx1 = document.getElementById('canvas-nfa').getContext('2d')
-  const ctx2 = document.getElementById('canvas-conv-dfa').getContext('2d')
-  const ctx3 = document.getElementById('canvas-dfa').getContext('2d')
-  const ctx4 = document.getElementById('canvas-min-dfa').getContext('2d')
+const clearCanvas = id => {
+  if (id === 'nfa') {
+    clearCanvas('conv-dfa')
+  } else if (id === 'dfa') {
+    clearCanvas('min-dfa')
+  }
+  const ctx1 = document.getElementById('canvas-' + id).getContext('2d')
   ctx1.clearRect(0, 0, ctx1.canvas.width, ctx1.canvas.height)
-  ctx2.clearRect(0, 0, ctx2.canvas.width, ctx2.canvas.height)
-  ctx3.clearRect(0, 0, ctx3.canvas.width, ctx3.canvas.height)
-  ctx4.clearRect(0, 0, ctx4.canvas.width, ctx4.canvas.height)
 }
 
 /** Get user NFA input from app form */
 const getUserInput = (id) => {
-  const start = document.getElementById('start-' + id + '-state').value.split(/[ ,]+/)
+  const start = document.getElementById('start-' + id + '-state').value
   const finals = document.getElementById('final-' + id + '-states').value.split(/[ ,]+/)
   const alphabet = document.getElementById('alphabet-' + id).value.split(/[ ,]+/)
   const moves = readMoves('{' + document.getElementById('moves-' + id).value + '}')
@@ -112,4 +183,4 @@ const addMove = id => {
   moves.value += newMove
 }
 
-exports = { addMove, convert, drawNFA, minimize }
+exports = { addMove, convert, drawNFA, minimize, checkDFA, save, load, saveOut }

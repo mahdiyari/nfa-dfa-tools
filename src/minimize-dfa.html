@@ -23,7 +23,15 @@
       </td>
     </tr>
     <tr>
-      <td>Moves:</td>
+      <td>
+        Moves: <br><br>
+        <button class="btn btn-success" onclick="save('dfa')" style="margin-bottom: 3px;">
+          <i class="glyphicon glyphicon-save"></i> Save
+        </button> <br>
+        <button class="btn btn-default" onclick="load('dfa')">
+          <i class="glyphicon glyphicon-open"></i> Load
+        </button>
+      </td>
       <td>
         <textarea
           class="form-control"
@@ -73,6 +81,7 @@
   </div>
 </div>
 
+<hr>
 <!-- Output -->
 <div class="container" id="output-min-dfa" style="display: none;">
   <h3>Output:</h3>
@@ -90,7 +99,12 @@
       <td id="moves-min-dfa"></td>
     </tr>
   </table>
+  <button class="btn btn-success" onclick="saveOut(1, 'dfa-min')" style="margin-bottom: 3px;">
+    <i class="glyphicon glyphicon-save"></i> Save
+  </button>
 </div>
+
+<hr>
 <div class="col col-sm-6" id="dfa-canvas-div" style="display: none;">
   <h3>DFA:</h3>
   <canvas
