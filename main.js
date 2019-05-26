@@ -63,7 +63,7 @@ const menuTemplate = [
           openAboutWindow({
             icon_path: join(__dirname, 'assets/icons/win/icon.png'),
             product_name: 'NFA & DFA tools',
-            description: 'Convert NFA to DFA and minimize DFA',
+            description: 'Convert NFA to DFA, minimize DFA, and check DFA',
             bug_report_url: 'https://github.com/mahdiyari/nfa-dfa-tools/issues',
             homepage: 'https://github.com/mahdiyari/nfa-dfa-tools',
             win_options: {
