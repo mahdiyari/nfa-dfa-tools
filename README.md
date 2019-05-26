@@ -4,6 +4,7 @@ This program helps you to run the following functions in a user-friendly interfa
 Functions:  
 1. Convert NFA to DFA
 2. Minimize DFA
+3. Check DFA
 
 ### Releases
 Get the latest version from [releases](https://github.com/mahdiyari/nfa-dfa-tools/releases)
